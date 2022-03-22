@@ -39,4 +39,3 @@ make CARGO_ARGS="--target aarch64-unknown-linux-gnu"
 # install the application
 make install 
 ```
-
