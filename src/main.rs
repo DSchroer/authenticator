@@ -57,6 +57,7 @@ fn add_secret(name: &String) -> Result<(), Box<dyn Error>> {
     println!("Secret: ");
     let mut line = String::new();
     std::io::stdin().read_line(&mut line).unwrap();
+    line.retain(|c| !c.is_whitespace());
 
     let mut secrets = open_secrets()?;
     secrets.push(Secret::new(name.clone(), line.trim().to_string()));

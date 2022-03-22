@@ -1,6 +1,6 @@
 build: build/authenticator
 
-CARGO_ARGS=""
+CARGO_ARGS=
 build/authenticator: src/**.rs Cargo.toml Cargo.lock
 	cargo build -Z unstable-options --release --out-dir build ${CARGO_ARGS}
 
