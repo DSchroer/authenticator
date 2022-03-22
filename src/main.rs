@@ -9,6 +9,8 @@ use std::path::{Path, PathBuf};
 use clap::{Parser, Subcommand};
 use crate::secret::Secret;
 
+const DEFAULT_FILE: &str = ".authenticator";
+
 #[derive(Parser)]
 #[clap(author, version)]
 #[clap(author = "Dominick Schroer <dominick@schroer.ca>")]
@@ -50,8 +52,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         Commands::Show { name } => show_secret(name),
     }
 }
-
-const DEFAULT_FILE: &str = ".authenticator";
 
 fn add_secret(name: &String) -> Result<(), Box<dyn Error>> {
     println!("Secret: ");
