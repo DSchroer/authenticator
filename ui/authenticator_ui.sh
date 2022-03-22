@@ -11,7 +11,7 @@ new_item() {
 item_menu(){
   ACTION=$(echo -en "$COPY\n$SHOW" | dmenu -l 10)
   if [ "$ACTION" = "$COPY" ]; then
-    authenticator show $SELECTED | xclip -sel c
+    authenticator show $SELECTED | wl-copy -n
   elif [ "$ACTION" = "$SHOW" ]; then
     foot sh -c "watch -n 1 authenticator show $SELECTED"
   fi
