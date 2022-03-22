@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Authenticator
+Comment=TOTP Authenticator
+Path=/usr/local/bin
+Exec=authenticator_ui.sh
+Terminal=false
+Categories=Utility;
