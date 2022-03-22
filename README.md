@@ -25,6 +25,8 @@ SUBCOMMANDS:
     show      Show the value of a secret
 ```
 
+There is also a [SXMO](https://sxmo.org/) style UI under the command `authenticator_ui.sh`.
+
 ## Building
 
 ```sh
