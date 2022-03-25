@@ -1,0 +1,29 @@
+pkgname=authenticator
+pkgver=0.1.1
+pkgrel=1
+pkgdesc='A TOTP Authenticator (AKA Google Authenticator) command line tool with a minimal UI.'
+url=https://github.com/DSchroer/authenticator
+arch=('x86_64' 'aarch64')
+license=('Apache-2.0')
+makedepends=(cargo)
+
+prepare() {
+    rm -rf ${srcdir}/authenticator
+    git clone ${startdir}/.. ${srcdir}/authenticator
+    cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
+}
+
+build() {
+    export CARGO_TARGET_DIR=target
+    cargo build --frozen --release --all-features --target "$CARCH-unknown-linux-gnu"
+}
+
+package() {
+    mkdir -p "$pkgdir/usr/share/applications/"
+    mkdir -p "$pkgdir/usr/share/icons/hicolor/128x128/apps"
+
+    install -Dm0755 -t "$pkgdir/usr/local/bin/" target/$CARCH-unknown-linux-gnu/release/$pkgname
+    install -Dm0755 -t  "$pkgdir/usr/local/bin/" authenticator/ui/authenticator_ui.sh
+    cp authenticator/ui/ca.schroer.authenticator.desktop "$pkgdir/usr/share/applications/"
+    cp authenticator/ui/ca.schroer.authenticator.png "$pkgdir/usr/share/icons/hicolor/128x128/apps"
+}

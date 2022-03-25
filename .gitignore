@@ -1,3 +1,6 @@
 /build
 /target
+/package/pkg
+/package/src
+/package/*.pkg.*
 .idea
