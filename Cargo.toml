@@ -5,6 +5,6 @@ edition = "2021"
 license = "Apache-2.0"
 
 [dependencies]
-clap = { version = "3.1.6", features = ["derive"] }
+clap = { version = "3.2.8", features = ["derive"] }
 totp-rs = "2.0.1"
 base32 = "0.4.0"
