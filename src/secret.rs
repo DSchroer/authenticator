@@ -3,6 +3,7 @@ use std::fmt::{Display, Formatter};
 use std::time::SystemTime;
 use totp_rs::{Algorithm, TOTP};
 
+#[derive(Debug, PartialEq, Clone)]
 pub struct Secret {
     pub name: String,
     value: String,
@@ -15,7 +16,7 @@ impl Display for Secret {
 }
 
 impl Secret {
-    pub fn new(name: String, value: String) -> Self {
+    pub const fn new(name: String, value: String) -> Self {
         Secret {
             name,
             value
