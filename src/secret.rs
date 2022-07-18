@@ -40,7 +40,7 @@ impl Secret {
         let decoded = &base32::decode(base32::Alphabet::RFC4648{ padding: false }, &self.value)
             .ok_or(Box::new(crate::error::Error::from("failed to decode secret")))?;
 
-        let totp = TOTP::new(Algorithm::SHA1, 6, 1, 30, decoded);
+        let totp = TOTP::new(Algorithm::SHA1, 6, 1, 30, decoded, None, String::new()).unwrap();
         let time = SystemTime::now()
             .duration_since(SystemTime::UNIX_EPOCH).unwrap()
             .as_secs();
