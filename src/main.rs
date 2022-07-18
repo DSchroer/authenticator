@@ -48,6 +48,8 @@ enum Commands {
         #[clap(short, long)]
         watch: bool
     },
+    /// Change the pin on the secret store
+    Pin {},
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -59,7 +61,15 @@ fn main() -> Result<(), Box<dyn Error>> {
         Commands::Add { name } => add_secret(name),
         Commands::Remove { name } => remove_secret(name),
         Commands::Show { name, watch } => show_secret(name, watch),
+        Commands::Pin {} => change_pin(),
     }
+}
+
+fn change_pin() -> Result<(), Box<dyn Error>> {
+    let store = open_secret_store()?;
+    print!("New ");
+    let (store, _) = store.upgrade(get_pw, true);
+    save_secrets(store)
 }
 
 fn add_secret(name: &String) -> Result<(), Box<dyn Error>> {
@@ -121,7 +131,7 @@ fn open_secret_store() -> Result<Store, Box<dyn Error>> {
         }
     };
 
-    let (store, upgraded) = store.upgrade(get_pw);
+    let (store, upgraded) = store.upgrade(get_pw, false);
     if upgraded {
         save_secrets(store.clone())?;
     }

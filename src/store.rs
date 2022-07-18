@@ -40,8 +40,12 @@ impl Store {
 
         let body = decode(parts.next().unwrap())?;
 
-        let their_plaintext = secretbox::open(&body, &nonce, &key).unwrap();
-        let their_plaintext = String::from_utf8(their_plaintext)?;
+        let their_plaintext = secretbox::open(&body, &nonce, &key);
+        if their_plaintext.is_err() {
+            return Err(Box::new(crate::error::Error::from("Incorrect PIN!")));
+        }
+
+        let their_plaintext = String::from_utf8(their_plaintext.unwrap())?;
 
         let mut secrets = Vec::new();
         for line in their_plaintext.split('\n').filter(|l|!l.is_empty()) {
@@ -51,9 +55,17 @@ impl Store {
         Ok(Encrypted(key, salt, secrets))
     }
 
-    pub fn upgrade(self, passwd: impl Fn() -> String) -> (Self, bool) {
+    pub fn upgrade(self, passwd: impl Fn() -> String, force: bool) -> (Self, bool) {
         match self {
-            Encrypted(a, b, c) => (Encrypted(a,b,c), false),
+            Encrypted(a, b, c) => {
+                if force {
+                    let salt = pwhash::gen_salt();
+                    let key = derive_key(&salt, passwd);
+                    (Encrypted(key,salt,c), true)
+                } else {
+                    (Encrypted(a,b,c), false)
+                }
+            },
             Plaintext(a) => {
                 let salt = pwhash::gen_salt();
                 let key = derive_key(&salt, passwd);
@@ -126,7 +138,7 @@ mod tests {
     #[test]
     fn it_upgrades_plaintext_to_encrypted() {
         let store = Plaintext(Vec::new());
-        let (store, _) = store.upgrade(pw);
+        let (store, _) = store.upgrade(pw, false);
         assert_matches!(store, Encrypted(_,_,_));
     }
 
