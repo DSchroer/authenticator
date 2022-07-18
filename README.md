@@ -3,10 +3,12 @@
 A TOTP Authenticator (AKA Google Authenticator) command line tool with a minimal UI. 
 The system is designed to be a minimal drop in for managing TOTP codes.
 
+All codes are stored encrypted at rest but remain portable across systems.
+
 ## Usage
 
 ```
-authenticator 0.1.0
+authenticator 0.2.2
 Dominick Schroer <dominick@schroer.ca>
 TOTP Authenticator CLI
 
@@ -21,6 +23,7 @@ SUBCOMMANDS:
     add       Add a new secret
     help      Print this message or the help of the given subcommand(s)
     list      List all secrets
+    pin       Change the pin on the secret store
     remove    Remove a secret
     show      Show the value of a secret
 ```
