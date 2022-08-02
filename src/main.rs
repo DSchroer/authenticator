@@ -12,6 +12,7 @@ use std::path::{Path, PathBuf};
 use std::thread::sleep;
 use std::time::Duration;
 use clap::{Parser, Subcommand};
+use rpassword::read_password;
 use crate::secret::Secret;
 use crate::store::Store;
 
@@ -154,10 +155,10 @@ fn save_secrets(store: Store) -> Result<(), Box<dyn Error>> {
 }
 
 fn get_pw() -> String {
-    println!("PIN: ");
-    let mut line = String::new();
-    std::io::stdin().read_line(&mut line).unwrap();
-    return line;
+    print!("PIN: ");
+    std::io::stdout().flush().unwrap();
+    let pin = read_password().unwrap();
+    return pin + "\n";
 }
 
 fn file_path() -> PathBuf {
