@@ -4,5 +4,10 @@ type: docker
 name: build
 
 steps:
+  - name: test
+    image: rust
+    commands:
+      - cargo test
+
   - template: github-mirror
     repo: git@github.com:DSchroer/authenticator.git

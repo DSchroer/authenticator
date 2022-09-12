@@ -126,7 +126,6 @@ fn derive_key(salt: &Salt, passwd: impl Fn() -> String) -> Key {
 
 #[cfg(test)]
 mod tests {
-    use std::assert_matches::assert_matches;
     use super::*;
 
     #[test]
@@ -139,7 +138,7 @@ mod tests {
     fn it_upgrades_plaintext_to_encrypted() {
         let store = Plaintext(Vec::new());
         let (store, _) = store.upgrade(pw, false);
-        assert_matches!(store, Encrypted(_,_,_));
+        assert!(matches!(store, Encrypted(_,_,_)));
     }
 
     fn pw() -> String {

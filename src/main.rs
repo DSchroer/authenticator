@@ -1,5 +1,3 @@
-#![feature(assert_matches)]
-
 mod secret;
 mod error;
 mod store;
